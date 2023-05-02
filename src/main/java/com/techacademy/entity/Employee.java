@@ -1,17 +1,20 @@
 package com.techacademy.entity;
 
 import java.time.LocalDateTime;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "Employee")
+@Table(name = "employee")
 public class Employee {
 
     /** 主キー。自動生成 */
@@ -34,4 +37,7 @@ public class Employee {
    /* 更新日時*/
    @Column(name = "updated_at")
    private LocalDateTime updated_at;
+   
+   @OneToOne(mappedBy="employee", cascade = CascadeType.ALL)
+   private Authentication authentication;
 }
