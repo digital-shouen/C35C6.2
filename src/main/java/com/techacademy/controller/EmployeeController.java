@@ -1,9 +1,12 @@
 package com.techacademy.controller;
 
+import java.time.LocalDateTime;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -34,9 +37,34 @@ public class EmployeeController {
     /**従業員の登録処理 */
     @PostMapping("/register")
     public String postRegister(Employee employee) {
-        service.saveUser(employee);
+        LocalDateTime date = LocalDateTime.now();
+        employee.getAuthentication().setEmployee(employee);
+        employee.setUpdated_at(date);
+        employee.setCreated_at(date);
+        employee.setDelete_flag(0);
+        service.saveEmployee(employee);
         return "redirect:/employee/list";
     }
+    
+ // ----- 追加:ここから -----
+    /** User更新画面を表示 */
+    @GetMapping("/update/{id}/")
+    public String getEmployee(@PathVariable("code") Integer code, Model model) {
+        // Modelに登録
+        model.addAttribute("user", service.getEmployee(code));
+        // User更新画面に遷移
+        return "employee/update";
+    }
+
+    /** User更新処理 */
+    @PostMapping("/update/{id}/")
+    public String postEmployee(Employee employee) {
+        // User登録
+        service.saveEmployee(employee);
+        // 一覧画面にリダイレクト
+        return "redirect:/employee/list";
+    }
+    // ----- 追加:ここまで -----
     
    
 }

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>日報管理システム</title>
+</head>
+<body>
+    <h1>日報管理システム</h1>
+    <h2>従業員情報 詳細ページ</h2>
+    <form method="post" th:action="@{/employee/update/{id}/(code=${employee.id})}" th:object="${employee}">
+        <label for="id">社員番号</label>
+        <input type="hidden" id="code" name="code" th:value="*{code}" th:text="*{code}">
+        <br>
+        <label for="name">氏名</label>
+        <input type="text" th:field="*{name}">
+        <br>
+        <label for="role">権限</label>
+        <select th:field="*{role}">
+            <option value="" th:text="選択してください">
+            <option th:each="item:${T(com.techacademy.entity.Employee.Role).values()}" th:value="${item}" th:text="${item}" th:selected="*{role} == ${item}">
+        </select>
+        <input type="submit" value="この従業員情報を編集する">
+        <a th:href="@{/employee/list}">一覧に戻る</a>
+    </form>
+</body>
+</html>

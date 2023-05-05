@@ -21,8 +21,11 @@ public class EmployeeService {
     }
     
     @Transactional
-    public Employee saveUser(Employee employee) {
+    public Employee saveEmployee(Employee employee) {
         return employeeRepository.save(employee);
-
+    }
+    //一件、従業員を入れる方法、L17参照//
+    public Employee getEmployee(Integer id) {
+        return employeeRepository.findById(id).get();
     }
 }
