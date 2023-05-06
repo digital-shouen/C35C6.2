@@ -48,16 +48,16 @@ public class EmployeeController {
     
  // ----- 追加:ここから -----
     /** User更新画面を表示 */
-    @GetMapping("/update/{id}/")
-    public String getEmployee(@PathVariable("code") Integer code, Model model) {
+    @GetMapping("/employee/detail/{id}/")
+    public String getEmployee(@PathVariable("id") Integer code, Model model) {
         // Modelに登録
-        model.addAttribute("user", service.getEmployee(code));
+        model.addAttribute("employee", service.getEmployee(code));
         // User更新画面に遷移
-        return "employee/update";
+        return "employee/detail";
     }
 
     /** User更新処理 */
-    @PostMapping("/update/{id}/")
+    @PostMapping("/employee/list/")
     public String postEmployee(Employee employee) {
         // User登録
         service.saveEmployee(employee);

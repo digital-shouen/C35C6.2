@@ -7,7 +7,7 @@
 <body>
     <h1>日報管理システム</h1>
     <h2>従業員情報 詳細ページ</h2>
-    <form method="post" th:action="@{/employee/update/{id}/(code=${employee.id})}" th:object="${employee}">
+        <form method="post" th:action="@{/employee/detail/{id}}" th:object="${employee}">
         <label for="id">社員番号</label>
         <input type="hidden" id="code" name="code" th:value="*{code}" th:text="*{code}">
         <br>
@@ -21,6 +21,6 @@
         </select>
         <input type="submit" value="この従業員情報を編集する">
         <a th:href="@{/employee/list}">一覧に戻る</a>
-    </form>
+        </form>
 </body>
 </html>
