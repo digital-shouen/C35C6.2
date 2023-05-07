@@ -7,20 +7,22 @@
 <body>
     <h1>日報管理システム</h1>
     <h2>従業員情報 詳細ページ</h2>
-        <form method="post" th:action="@{/employee/detail/{id}}" th:object="${employee}">
         <label for="id">社員番号</label>
-        <input type="hidden" id="code" name="code" th:value="*{code}" th:text="*{code}">
+        <span th:text="*{employee.authentication.code}"></span>
         <br>
         <label for="name">氏名</label>
-        <input type="text" th:field="*{name}">
+        <span th:text="*{employee.name}"></span>
         <br>
         <label for="role">権限</label>
-        <select th:field="*{role}">
-            <option value="" th:text="選択してください">
-            <option th:each="item:${T(com.techacademy.entity.Employee.Role).values()}" th:value="${item}" th:text="${item}" th:selected="*{role} == ${item}">
-        </select>
-        <input type="submit" value="この従業員情報を編集する">
+        <span th:text="*{employee.authentication.role}"></span>
+        <br>
+        <label for="name">登録日時</label>
+        <span th:text="*{employee.created_at}"></span>
+        <br>
+        <label for="role">更新日時</label>
+        <span th:text="*{employee.updated_at}"></span>
+        <br>
+        <a th:href="@{/employee/update/{id}/(id=*{employee.id})}">従業員画面を編集する</a>
         <a th:href="@{/employee/list}">一覧に戻る</a>
-        </form>
 </body>
 </html>
