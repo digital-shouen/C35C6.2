@@ -1,8 +1,6 @@
 package com.techacademy.controller;
 
 import java.time.LocalDateTime;
-import java.util.Set;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,8 +10,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.techacademy.entity.Employee;
 
 import com.techacademy.service.EmployeeService;
@@ -94,13 +90,15 @@ public class EmployeeController {
         return "redirect:/employee/list";
     }
     
-    /** User削除処理 */
-    @PostMapping(path="update", params="deleteRun")
-    public String deleteRun(@RequestParam(name="idck") Set<Integer> idck, Model model) {
-        // Userを一括削除
-        service.deleteEmployee(idck);
-        // 一覧画面にリダイレクト
-        return "redirect:/employee/update";
+    @GetMapping("/delete/{id}/")
+    public String deleteEmployee(@PathVariable("id") Integer id) {
+        Employee tableEmployee = service.getEmployee(id);
+        tableEmployee.setDelete_flag(1);
+        service.saveEmployee(tableEmployee);
+        
+        return "redirect:/employee/list";
     }
+
+
    
 }

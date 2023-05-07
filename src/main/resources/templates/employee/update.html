@@ -16,7 +16,7 @@
             </select></td></tr>
         </table>
         <button type="submit">投稿</button>
-        <input type="submit" name="deleteRun" id="deleteRun" value="この従業員情報を削除する">
+        <a th:href="@{/employee/delete/{id}/(id=*{id})}">この従業員情報を削除する</a>
         <a th:href="@{/employee/list}">一覧に戻る</a>
     </form>
 </body>
