@@ -1,6 +1,7 @@
 package com.techacademy.controller;
 
 import java.time.LocalDateTime;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,7 +27,7 @@ public class EmployeeController {
     public String getList(Model model) {
         // 全件検索結果をModelに登録
         model.addAttribute("employeelist", service.getEmployeeList());
-        // user/list.htmlに画面遷移
+        model.addAttribute("size", service.getEmployeeList().size());
         return "employee/list";
     }
     /**従業員の登録画面を表示 */
@@ -53,6 +54,7 @@ public class EmployeeController {
     public String getEmployee(@PathVariable("id") Integer code, Model model) {
         // Modelに登録
         model.addAttribute("employee", service.getEmployee(code));
+
         // User更新画面に遷移
         return "employee/detail";
     }
@@ -98,7 +100,4 @@ public class EmployeeController {
         
         return "redirect:/employee/list";
     }
-
-
-   
 }
