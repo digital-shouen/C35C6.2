@@ -31,7 +31,7 @@ public class Authentication {
     @Column(length = 10)
     private Role role;
 
-    /** ユーザID */
+    /** ユーザID */  // nullable = false
     @OneToOne
     @JoinColumn(name="employee_id", referencedColumnName="id", nullable = false)
     private Employee employee;

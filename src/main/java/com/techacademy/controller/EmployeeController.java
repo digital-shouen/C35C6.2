@@ -48,7 +48,6 @@ public class EmployeeController {
         return "redirect:/employee/list";
     }
     
- // ----- 追加:ここから -----
     /** User更新画面を表示 */
     @GetMapping("/detail/{id}/")
     public String getEmployee(@PathVariable("id") Integer code, Model model) {
@@ -72,23 +71,27 @@ public class EmployeeController {
     @GetMapping("/update/{id}/")
     public String getEmployee(@PathVariable("id") Integer id, Model model,@Validated Employee employee, BindingResult res) {
         if(id !=null) {
-            model.addAttribute("employee", service.getEmployee(id));
+            Employee tableEmployee = service.getEmployee(id);
+            tableEmployee.getAuthentication().setPassword("");
+            model.addAttribute("employee", tableEmployee);
         }else {
             model.addAttribute("employee",employee);
         }
         return "employee/update";
     }
 
-    /** User更新処理 */
+    /** employee更新処理 */
     @PostMapping("/update/{id}/")
-    public String postUser(@Validated Employee employee, BindingResult res, Model model) {
-        if(res.hasErrors()) {
-            // エラーあり
-            return getEmployee(null,model,employee,res);
-        }
+    public String postUser(@Validated Integer id,Employee employee, BindingResult res, Model model) {
+        Employee tableEmployee = service.getEmployee(id);
+        LocalDateTime date = LocalDateTime.now();
+        tableEmployee.setUpdated_at(date);
+        if(!employee.getAuthentication().getPassword().equals("")) {
+            tableEmployee.getAuthentication().setPassword(employee.getAuthentication().getPassword());
         //User登録
-        service.saveEmployee(employee);
-        // 一覧画面にリダイレクト
+        service.saveEmployee(tableEmployee);
+        }
+     // 一覧画面にリダイレクト
         return "redirect:/employee/list";
     }
     

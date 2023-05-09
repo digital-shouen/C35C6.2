@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>編集ページ</h1>
-    <form method="post" th:action="@{/employee/register}" th:object="${employee}">
+    <form method="post" th:action="@{/employee/update/{id}/(id=${employee.id})}" th:object="${employee}">
         <table>
             <tr><th>社員番号</th><td><input type="text" name="code" th:field="*{authentication.code}"></td></tr>
             <tr><th>氏名</th><td><input type="text" name="name" th:field="*{name}"></td></tr>
