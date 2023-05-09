@@ -8,7 +8,7 @@
     <h1>編集ページ</h1>
     <form method="post" th:action="@{/employee/update/{id}/(id=${employee.id})}" th:object="${employee}">
         <table>
-            <tr><th>社員番号</th><td><input type="text" name="code" th:field="*{authentication.code}"></td></tr>
+            <tr><th>社員番号</th><td><span th:text="*{authentication.code}"></span></td></tr>
             <tr><th>氏名</th><td><input type="text" name="name" th:field="*{name}"></td></tr>
             <tr><th>パスワード</th><td><input type="text" name="password" th:field="*{authentication.password}"></td></tr>
             <tr><th>権限</th><td><select th:field="*{authentication.role}" th:errorclass="err">

@@ -82,15 +82,19 @@ public class EmployeeController {
 
     /** employee更新処理 */
     @PostMapping("/update/{id}/")
-    public String postUser(@Validated Integer id,Employee employee, BindingResult res, Model model) {
+    public String postUser(@PathVariable("id") Integer id, Employee employee, BindingResult res, Model model) {
         Employee tableEmployee = service.getEmployee(id);
         LocalDateTime date = LocalDateTime.now();
         tableEmployee.setUpdated_at(date);
         if(!employee.getAuthentication().getPassword().equals("")) {
             tableEmployee.getAuthentication().setPassword(employee.getAuthentication().getPassword());
+        }
+
+        tableEmployee.setName(employee.getName());
+        tableEmployee.getAuthentication().setRole(employee.getAuthentication().getRole());
+
         //User登録
         service.saveEmployee(tableEmployee);
-        }
      // 一覧画面にリダイレクト
         return "redirect:/employee/list";
     }
