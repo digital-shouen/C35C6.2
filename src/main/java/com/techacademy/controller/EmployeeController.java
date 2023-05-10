@@ -2,6 +2,8 @@ package com.techacademy.controller;
 
 import java.time.LocalDateTime;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +20,10 @@ import com.techacademy.service.EmployeeService;
 @Controller
 @RequestMapping("employee")
 public class EmployeeController {
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+       
     private final EmployeeService service;
     public EmployeeController(EmployeeService service) {
         this.service = service;
@@ -70,6 +76,7 @@ public class EmployeeController {
     /** User更新画面を表示 */
     @GetMapping("/update/{id}/")
     public String getEmployee(@PathVariable("id") Integer id, Model model,@Validated Employee employee, BindingResult res) {
+        
         if(id !=null) {
             Employee tableEmployee = service.getEmployee(id);
             tableEmployee.getAuthentication().setPassword("");
@@ -83,12 +90,16 @@ public class EmployeeController {
     /** employee更新処理 */
     @PostMapping("/update/{id}/")
     public String postUser(@PathVariable("id") Integer id, Employee employee, BindingResult res, Model model) {
+ 
         Employee tableEmployee = service.getEmployee(id);
         LocalDateTime date = LocalDateTime.now();
         tableEmployee.setUpdated_at(date);
         if(!employee.getAuthentication().getPassword().equals("")) {
             tableEmployee.getAuthentication().setPassword(employee.getAuthentication().getPassword());
         }
+        
+        String password = employee.getAuthentication().getPassword();
+        employee.getAuthentication().setPassword(passwordEncoder.encode(password));
 
         tableEmployee.setName(employee.getName());
         tableEmployee.getAuthentication().setRole(employee.getAuthentication().getRole());
@@ -107,4 +118,6 @@ public class EmployeeController {
         
         return "redirect:/employee/list";
     }
+    
+  
 }
