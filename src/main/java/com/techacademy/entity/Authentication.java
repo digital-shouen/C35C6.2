@@ -9,6 +9,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import lombok.Data;
 
 @Data
@@ -24,17 +27,17 @@ public class Authentication {
     private String code;
 
     /** パスワード */
+    @Autowired
     private String password;
+    private PasswordEncoder passwordEncoder;
 
     /** 権限 */
     @Enumerated(EnumType.STRING)
     @Column(length = 10)
     private Role role;
 
-    /** ユーザID */  // nullable = false
+    /** ユーザID */  
     @OneToOne
     @JoinColumn(name="employee_id", referencedColumnName="id", nullable = false)
     private Employee employee;
-    
-    
 }
