@@ -35,14 +35,14 @@ public class ReportController {
         model.addAttribute("size", service.getReportList().size());
         return "report/list";
     }
-    /**従業員の登録画面を表示 */
+    /**日報の登録画面を表示 */
     @GetMapping("/register")
     public String getRegister(@AuthenticationPrincipal UserDetail userDetail,@ModelAttribute Report report) {
         report.setEmployee(userDetail.getEmployee());
         // 登録画面に遷移
         return "report/register";
     }
-    /**従業員の登録処理 */
+    /*日報の登録処理 */
     @PostMapping("/register")
     public String postRegister(@AuthenticationPrincipal UserDetail userDetail,Report report) {
         report.setEmployee(userDetail.getEmployee());  
@@ -57,6 +57,7 @@ public class ReportController {
     /** User更新画面を表示 */
     @GetMapping("/detail/{id}/")
     public String getReport(@AuthenticationPrincipal UserDetail userDetail,@PathVariable("id") Integer code, Model model) {
+        
         Report report = service.getReport(code);
         int flag = 0;
         if(report.getEmployee().getId() == userDetail.getEmployee().getId()) {

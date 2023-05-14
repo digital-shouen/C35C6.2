@@ -4,6 +4,8 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
+
+import com.techacademy.entity.Employee;
 import com.techacademy.entity.Report;
 import com.techacademy.repository.ReportRepository;
 
@@ -28,6 +30,8 @@ public class ReportService {
         return reportRepository.findById(id).get();
     }
     
-
+    public List<Report> getEmployeeReportList(Employee employee) {
+        return reportRepository.findByEmployee(employee);
+    }
 
     }

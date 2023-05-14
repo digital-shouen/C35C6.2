@@ -38,6 +38,7 @@ public class EmployeeController {
         model.addAttribute("size", service.getEmployeeList().size());
         return "employee/list";
     }
+    
     /**従業員の登録画面を表示 */
     @GetMapping("/register")
     public String getRegister(@ModelAttribute Employee employee) {
@@ -123,6 +124,4 @@ public class EmployeeController {
         
         return "redirect:/employee/list";
     }
-    
-  
 }
