@@ -9,7 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
+import javax.transaction.Transactional;
 
 import org.hibernate.annotations.Where;
 
@@ -42,6 +44,17 @@ public class Employee {
    @Column(name = "updated_at")
    private LocalDateTime updated_at;
    
-   @OneToOne(mappedBy="employee", cascade = CascadeType.ALL)
+   // 
+   @OneToOne(mappedBy="employee",cascade = CascadeType.ALL)
    private Authentication authentication;
+   
+   /** レコードが削除される前に行なう処理 */
+   @PreRemove
+   @Transactional
+   private void preRemove() {
+       // 認証エンティティからuserを切り離す
+       if (authentication!=null) {
+           authentication.setEmployee(null);
+       }
+   }
 }

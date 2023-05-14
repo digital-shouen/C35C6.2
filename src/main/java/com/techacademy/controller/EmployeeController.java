@@ -23,14 +23,16 @@ public class EmployeeController {
     
     @Autowired
     private PasswordEncoder passwordEncoder;
-       
+
     private final EmployeeService service;
     public EmployeeController(EmployeeService service) {
+        
         this.service = service;
     }
         /** 一覧画面を表示 */
     @GetMapping("/list")
     public String getList(Model model) {
+        
         // 全件検索結果をModelに登録
         model.addAttribute("employeelist", service.getEmployeeList());
         model.addAttribute("size", service.getEmployeeList().size());
@@ -39,12 +41,17 @@ public class EmployeeController {
     /**従業員の登録画面を表示 */
     @GetMapping("/register")
     public String getRegister(@ModelAttribute Employee employee) {
+        
         // 登録画面に遷移
         return "employee/register";
     }
     /**従業員の登録処理 */
     @PostMapping("/register")
     public String postRegister(Employee employee) {
+        
+        String password = employee.getAuthentication().getPassword();
+        employee.getAuthentication().setPassword(passwordEncoder.encode(password));
+        
         LocalDateTime date = LocalDateTime.now();
         employee.getAuthentication().setEmployee(employee);
         employee.setUpdated_at(date);
@@ -59,7 +66,6 @@ public class EmployeeController {
     public String getEmployee(@PathVariable("id") Integer code, Model model) {
         // Modelに登録
         model.addAttribute("employee", service.getEmployee(code));
-
         // User更新画面に遷移
         return "employee/detail";
     }
@@ -84,6 +90,7 @@ public class EmployeeController {
         }else {
             model.addAttribute("employee",employee);
         }
+        
         return "employee/update";
     }
 
@@ -95,12 +102,10 @@ public class EmployeeController {
         LocalDateTime date = LocalDateTime.now();
         tableEmployee.setUpdated_at(date);
         if(!employee.getAuthentication().getPassword().equals("")) {
-            tableEmployee.getAuthentication().setPassword(employee.getAuthentication().getPassword());
+            String password = employee.getAuthentication().getPassword();
+            tableEmployee.getAuthentication().setPassword(passwordEncoder.encode(password));
         }
         
-        String password = employee.getAuthentication().getPassword();
-        employee.getAuthentication().setPassword(passwordEncoder.encode(password));
-
         tableEmployee.setName(employee.getName());
         tableEmployee.getAuthentication().setRole(employee.getAuthentication().getRole());
 
